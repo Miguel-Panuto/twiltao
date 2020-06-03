@@ -3,12 +3,12 @@ import { PrismaClient } from '@prisma/client';
 
 const db = new PrismaClient();
 
-export default  {
+export default class PostsController{
 
     async index(req: Request, res: Response) {
         const posts = await db.posts.findMany();
         return res.status(200).json(posts)
-    },
+    }
 
     async create(req: Request, res: Response) {
         const { content } = req.body;
@@ -23,7 +23,7 @@ export default  {
             }
         });
         return res.status(201).json(post);
-    },
+    }
 
     async update(req: Request, res: Response) {
         const { content, id } = req.body;
@@ -46,7 +46,7 @@ export default  {
             }
         });
         return res.status(201).json(post);
-    },
+    }
 
     async delete(req: Request, res: Response) {
         const { id } = req.body;

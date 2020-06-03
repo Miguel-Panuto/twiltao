@@ -5,7 +5,19 @@ import bcrypt from 'bcrypt';
 import generateToken from '../utils/generateToken';
 
 const db = new PrismaClient();
-export default  {
+export default class UsersController {
+    async show(req: Request, res: Response) {
+        const id = Number(req.params.id)
+        const user = await db.users.findOne({
+            where: {
+                id
+            }
+        });
+
+        if(!user) return res.status(404).json({ error: 'Not finded user' });
+
+        return res.json(user);
+    }
 
     async index(req: Request, res: Response) {
         // List all users
@@ -17,7 +29,7 @@ export default  {
             }
         });
         return res.status(202).json({ users });
-    },
+    }
 
     async create(req: Request, res: Response) {
         const { email, name } = req.body;
@@ -50,7 +62,7 @@ export default  {
 
         // Return the token
         return res.status(201).json({ token: generateToken({ id }) })
-    },
+    }
 
     async update(req: Request, res: Response) {
         const { name } = req.body;
@@ -68,5 +80,5 @@ export default  {
             name: user.name,
             id: user.id
          })
-    },
+    }
 }

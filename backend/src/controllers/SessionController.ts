@@ -5,7 +5,7 @@ import generateToken from '../utils/generateToken';
 
 const db = new PrismaClient();
 
-export default {
+export default class SessionController {
     async create(req: Request, res: Response) {
         const { email } = req.body;
         let { password } = req.body;
